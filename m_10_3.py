@@ -19,10 +19,9 @@ class Bank(threading.Thread):
             lock_main.release()
             if self.balance >= 500 and self.lock.locked():
                 self.lock.release()
-            time.sleep(0.3)
+            time.sleep(0.03)
 
     def take(self) -> None:
-        time.sleep(0.1)
         for j in range(100):
             lock_main.acquire()
             num2 = randint(50, 500)
@@ -35,14 +34,11 @@ class Bank(threading.Thread):
                 if self.lock.locked() == False:
                     self.lock.acquire()
             lock_main.release()
-
-
-            time.sleep(0.3)
+            time.sleep(0.03)
 
 
 
 bank1 = Bank()
-
 th1 = threading.Thread(target=Bank.deposit, args=(bank1,))
 th2 = threading.Thread(target=Bank.take, args=(bank1,), daemon=True)
 
