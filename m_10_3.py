@@ -13,7 +13,7 @@ class Bank(threading.Thread):
     def deposit(self) -> None:
         for i in range(100):
             lock_main.acquire()
-            num = randint(50, 500)
+            num = randint(50, 100)
             self.balance += num
             print(f'deposit {i+1} \nпополнение: {num} текущий таланс: {self.balance}')
             lock_main.release()
@@ -32,7 +32,8 @@ class Bank(threading.Thread):
                 print(f'снятие: {num2}, текущий баланс:{self.balance}\n')
             else:
                 print('запрос отклонен\n')
-                self.lock.acquire()
+                if self.lock.locked() == False:
+                    self.lock.acquire()
             lock_main.release()
 
 
